@@ -151,8 +151,23 @@
    但**刻意不去搶 Omnichat 的 2,147,483,000**——搶贏了是我們蓋住客服入口
    ⚠️ 用 top/right/bottom/left 四行而不是 inset:0：inset 是 2021 年才普及的簡寫，
       舊瀏覽器不認得就整條規則失效＝浮層不滿版，而背景又被鎖住＝使用者被困住。 */
+/* 🔴🔴 height 那兩行是 2026-09-12 修的 bug，**不要「整理」掉其中一行**。
+   ------------------------------------------------------------------
+   症狀（Anita 實機回報）：點開影片後，商品按鈕、敘述標題、敘述內文、進度條、
+   底部漸層**全部不見**，但左上叉叉和右上喇叭還在。
+   成因：手機瀏覽器有一條會自己收起來的網址列／工具列。
+     · `position:fixed` 的 top:0/bottom:0 量到的是「**版面視窗**」——
+       那個高度**包含被工具列蓋住的部分**
+     · 使用者實際看得到的是「**視覺視窗**」，比它矮（iPhone Safari 差約 100–150px）
+     兩者在桌機一模一樣，所以**桌機怎麼測都測不出來**——我掃過
+     1440×900／1440×700／1440×600／1280×560／1920×1080／431×741，全過。
+   ➡️ `dvh`（dynamic viewport height）＝會跟著工具列伸縮的那個高度，正是要用的單位。
+   ⚠️ 兩行都要留：舊瀏覽器不認得 dvh，會整條忽略、退回上面那行的 vh；
+      認得的就用下面那行。這是 CSS 的標準退化寫法，不是重複。 */
 #lnihmVidModal{position:fixed;top:0;right:0;bottom:0;left:0;z-index:99999;display:none;
-  align-items:center;justify-content:center;background:rgba(0,0,0,.9);padding:16px}
+  align-items:center;justify-content:center;background:rgba(0,0,0,.9);padding:16px;
+  height:100vh;
+  height:100dvh}
 #lnihmVidModal.lnihm-vid-open{display:flex}
 
 /* 🔴🔴 文字與商品按鈕是**疊在影片上**的，不是排在影片下面
@@ -169,6 +184,7 @@
 /* 手機＝滿版（影片填滿整個螢幕）；桌機＝置中的 9:16 直式框、最寬 420px */
 #lnihmVidModal .lnihm-vid-box{position:relative;
   width:min(calc(100vw - 32px),calc((100vh - 32px) * 0.5625),420px);
+  width:min(calc(100vw - 32px),calc((100dvh - 32px) * 0.5625),420px);  /* ← 同上，兩行都要留 */
   background:#000;border-radius:3px;overflow:hidden}
 #lnihmVidModal .lnihm-vid-frame{position:relative;height:0;padding-top:177.78%;background:#000;overflow:hidden}
 /* 🔴 object-fit:cover ＝「填滿，超出的裁掉」。這是短影片播放器的標準作法，也才長得像附圖。
@@ -324,7 +340,11 @@ body.lnihm-vid-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
       </button>
       <!-- ⬇️ 疊在影片上的三樣東西（照附圖）：商品按鈕 → 敘述標題 → 敘述內文 -->
       <div class="lnihm-vid-info">
-        <a class="lnihm-vid-buy" href="#" target="_blank" rel="noopener">
+        <!-- 🔴 刻意沒有 target="_blank"：點商品連結要在**同一個分頁**開（2026-09-12 Anita 指定）。
+             這樣也才跟「口碑推薦‧KOL 實搭」那一區一致——那邊本來就是同分頁。
+             ⚠️ 不要「順手」加回 target 與 rel="noopener"：那兩個是一組的，
+                同分頁不需要 rel，加了只是誤導下一個讀的人。 -->
+        <a class="lnihm-vid-buy" href="#">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12l1.5 4H4.5L6 2zm-2 6h16l-1.2 12.2a2 2 0 0 1-2 1.8H7.2a2 2 0 0 1-2-1.8L4 8zm5 3v6h2v-6H9zm4 0v6h2v-6h-2z"/></svg>
           <span></span>
         </a>
