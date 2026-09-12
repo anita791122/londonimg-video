@@ -1,0 +1,467 @@
+<!-- 組合區 -->
+<style>
+/* ============================================================
+   ⑦ 組合下殺 · 整套更省 · 橫向滑動 ＋ 自動同步（爬蟲版）
+   資料來源＝/categories/bundle「組合包專區」（分類頁·伺服器渲染·可解析）
+
+   ⭐⭐ 排序＝完全照後台「組合包專區」分類裡拖曳的順序（2026-07-28 改·方案 A）
+      後台位置：商品及分類 → 分類 → 組合包專區 → 查閱商品 → 直接拖曳商品排順序
+                （該分類的「網店預設排序」＝自訂排序，所以拖了就算數）
+      同事在後台拖完 → 這個區塊會跟著變，不需要改語法。
+      ⚠️ 抓取網址「不可以」加排序參數（例如 ?sort_by=created_at），一加就會蓋掉同事拖的順序。
+      ⚠️ 前端也「不做任何排序」，照分類頁的 DOM 順序原樣呈現。
+      （為什麼這樣選：這樣才會跟上方「原生商品輪播元件」顯示同一個順序。
+        原生元件只能吃分類的自訂排序、沒有排序選項，所以要一致就只能由這邊配合它。）
+
+   機制：載入時 JS 抓分類頁 → 解析商品名/售價/原價/圖 → 照分類順序顯示；
+         後台改價、改順序、上下架，下次載入就會跟著變（非即時推播，與原生元件同）。
+
+   ⚡ 效能：localStorage 快取 12 小時（半天） → 多數載入用快取免重抓（分類頁約 1MB）；
+           過期才在背景重抓。抓取是背景非同步，不擋首屏。
+           👉 要改「多久更新一次」＝往下找 `var TTL`（在 script 裡·有大框標示）
+
+   🛟 後備：下方寫死 6 張（2026-07-28 實抓快照·已依分類拖曳順序）；JS 被擋/抓失敗/解析 0 筆時維持顯示，不開天窗。
+      ⚠️ 後備是「寫死的舊資料」，同事在後台改順序不會影響它。它只在抓取失敗時才出場。
+         若長期停在後備（例如解析壞掉），畫面就會停在這份快照的順序與價格。
+   防撞：全部掛 #lnihmBundle + lnihm-bundle- 前綴；卡片＝整張 <a> 連結
+   斷點：767px（標準）；共用值走 var(--lnihm-*, 原值)，見同層 lnihm-tokens.css
+   ------------------------------------------------------------
+   ⚠️ 與 prototype「組合下殺」卡的三個差異（都是「資料沒有就不硬編」）：
+   1. prototype 有「組合名稱(終極防護套組)＋內容清單(A+B+C)」兩層文字，
+      但後台商品只有一個標題，而那個標題本身就是內容清單
+      （例：零手感史上最薄手機殼+瞬貼無痕極地冰盾貼+玻璃鏡頭環+YU 本織長掛繩）。
+      → 只顯示真實商品名（去掉尾端【GG49】品號），不自己發明套組名。
+   2. prototype 副標寫死「最高省 1,200 元」→ 折扣一變就說錯。
+      改成：靜態不寫數字，JS 抓到資料後用「實際最大省額」動態補上（永遠是真的）。
+   3. 「省 NT$X」＝原價−售價即時算出來的，不是寫死的行銷數字。
+   ⚠️ hover 不放大／不浮起／不加陰影（使用者 2026-07 對促銷/KOL/開箱三區的既有規則，
+      本區沿用；prototype 的 .bundle:hover translateY+shadow 刻意不搬過來）。
+   ⚠️ 脆弱點：靠解析 SHOPLINE 分類頁 HTML 結構，官方改版可能默默失效 → 靠後備兜底。
+      後備卡的價格是快照，久了會過期；若長期抓不到，請重抓一次更新下方 6 張。
+   ============================================================ */
+/* 🔴 2026-08-01：區段上下各留 24px（使用者指定·三區一致） */
+#lnihmBundle{max-width:var(--lnihm-maxw,1180px);margin:24px auto;padding:0 var(--lnihm-pad,22px);font-family:var(--lnihm-font,-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif)}
+#lnihmBundle *{box-sizing:border-box}
+#lnihmBundle .lnihm-bundle-hd{margin-bottom:26px}
+#lnihmBundle .lnihm-bundle-hd h3{font-size:var(--lnihm-h2,27px);font-weight:900;letter-spacing:-.01em;color:var(--lnihm-ink,#0b0b0f);margin:0}
+#lnihmBundle .lnihm-bundle-hd p{font-size:14px;color:var(--lnihm-ink-soft,#5b5b66);margin:5px 0 0}
+
+/* 分頁輪播軌道（滑動規則＝比照「限時優惠」）：
+     · 底部點點＝頁次，點了換頁      · 滑鼠按住卡片可拖曳換頁（僅桌機滑鼠）
+     · 觸控維持原生慣性滑動          · 捲軸隱藏（改用點點指示位置） */
+#lnihmBundle .lnihm-bundle-row{display:flex;flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:16px;padding:4px 2px 2px;scrollbar-width:none}
+#lnihmBundle .lnihm-bundle-row::-webkit-scrollbar{display:none}
+#lnihmBundle .lnihm-bundle-row{cursor:grab}
+#lnihmBundle .lnihm-bundle-row.lnihm-grabbing{cursor:grabbing;user-select:none}
+#lnihmBundle .lnihm-bundle-card{-webkit-user-drag:none}
+
+/* 整張卡＝一個連結（hover 只換框線色·不位移不放大不加陰影） */
+/* ⚠️ 2026-08-01：卡片**刻意不加框線**——使用者為了與原生商品區塊的樣式統一而移除。
+   請不要「好心」補回 border，那不是漏掉的，是設計決定。
+   ⚠️ 連帶：下面那條 :hover{border-color} 因為沒有 border 而**不會有任何效果**（等同無 hover 效果）。
+      目前保留原樣未動；若要真的做 hover 回饋，得另外選一種不加框線的做法（例如底色或陰影），
+      但那會偏離「與原生商品區塊統一」的初衷 → 需要先確認要不要做。 */
+#lnihmBundle .lnihm-bundle-card{flex:0 0 260px;scroll-snap-align:start;display:flex;flex-direction:column;overflow:hidden;background:#fff;text-decoration:none!important;transition:.2s}
+#lnihmBundle .lnihm-bundle-card:hover{border-color:#ffd1d6}
+/* 商品圖＝contain（組合包一張圖含多件，cover 會裁掉東西；SHOPLINE 分類頁自己也用 center-contain） */
+/* ⭐ 1:1 正方形（2026-07-28 改·原為固定 height:180px）
+   ⚠️ 不可用 CSS aspect-ratio —— SHOPLINE 會濾掉，上線就變成沒高度。
+      正解＝height:0 + padding-bottom:100%（padding 的 % 是「以寬度計」→ 高＝寬＝正方形）。
+      背景預設畫在 padding box 上，所以 center/contain 仍以整個正方形為範圍，圖會置中不變形。
+      手機不必另外設：卡片寬度一變（78vw / max 300px），高度自己跟著等比。 */
+#lnihmBundle .lnihm-bundle-photo{position:relative;height:0;padding-bottom:100%;background:var(--lnihm-bg-soft,#f5f5f7) center/contain no-repeat}
+/* 紅標「省 NT$X」＝原價−售價算出來的 */
+#lnihmBundle .lnihm-bundle-save{position:absolute;top:12px;right:12px;background:linear-gradient(135deg,#ff3d4f,#e0202f);color:#fff;font-size:12px;font-weight:800;letter-spacing:.02em;padding:5px 11px;border-radius:var(--lnihm-radius-pill,999px);box-shadow:0 4px 12px rgba(224,32,47,.30)}
+#lnihmBundle .lnihm-bundle-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px;flex:1;}
+/* 商品名＝真實標題（可能很長）→ 最多 2 行，超過收成省略號 */
+#lnihmBundle .lnihm-bundle-title{font-size:14.5px;font-weight:700;line-height:1.5;color:var(--lnihm-ink,#0b0b0f);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#lnihmBundle .lnihm-bundle-prices{display:flex;align-items:baseline;flex-wrap:wrap;margin-top:auto}
+#lnihmBundle .lnihm-bundle-now{font-size:22px;font-weight:900;letter-spacing:-.01em;color:#e0202f}
+#lnihmBundle .lnihm-bundle-was{font-size:13px;font-weight:500;color:#b3b3bd;text-decoration:line-through;margin-left:8px}
+/* 2026-07-28 已移除「組合選購 →」按鈕（.lnihm-bundle-cta 整組樣式一併刪掉）：
+   整張卡片本身就是 <a>，點圖、點標題、點價格都會進商品頁。
+   ⚠️ 價格靠 .lnihm-bundle-prices 的 margin-top:auto 推到卡片底部，
+      按鈕拿掉後價格就是最後一個元素，卡片高度仍會對齊，不需要補空的佔位元素。 */
+
+/* 底部點點（頁次）＝比照「限時優惠」／iPhone17 系列：10px 圓·未選 #eee／選中 #2c2c2c·置中
+   只有 1 頁時 JS 不產生按鈕，:empty 讓整條收合不佔位 */
+#lnihmBundle .lnihm-bundle-dots{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:14px;min-height:10px}
+#lnihmBundle .lnihm-bundle-dots:empty{display:none}
+#lnihmBundle .lnihm-bundle-dots button{width:10px;height:10px;padding:0;border:0;border-radius:999px;background:#e6e6ec;cursor:pointer;transition:background .2s;-webkit-appearance:none;appearance:none}
+#lnihmBundle .lnihm-bundle-dots button[aria-current="true"]{background:#2c2c2c}
+
+/* 「更多組合」＝比照原生「查看更多」(#2c2c2c 深底白字·3px 圓角·hover 反白)·置中 */
+#lnihmBundle .lnihm-bundle-foot{display:flex;justify-content:center;margin-top:20px;margin-bottom:48px}
+#lnihmBundle .lnihm-bundle-more{display:inline-flex;align-items:center;justify-content:center;padding:12px 80px;background:#2c2c2c;border:1px solid #2c2c2c;border-radius:3px;color:#fff!important;font-size:16px;font-weight:400;line-height:1.4;text-decoration:none!important;white-space:nowrap;max-width:100%;transition:.2s}
+#lnihmBundle .lnihm-bundle-more:hover{background:#fff;color:#2c2c2c!important;border-color:#2c2c2c}
+
+@media(max-width:767px){
+#lnihmBundle{padding:0 var(--lnihm-pad-m,16px)}
+#lnihmBundle .lnihm-bundle-hd{margin-bottom:18px}
+#lnihmBundle .lnihm-bundle-hd h3{font-size:var(--lnihm-h2-m,22px)}
+#lnihmBundle .lnihm-bundle-card{flex:0 0 78vw;max-width:300px}
+}
+</style>
+<div id="lnihmBundle">
+    <div class="lnihm-bundle-hd">
+        <div>
+            <h3>組合下殺 ‧ 整套更省</h3>
+            <!-- 副標不寫死省額；JS 抓到資料後會補上「最高省 NT$X」（見下方 script） -->
+            <p class="lnihm-bundle-sub">成套帶回比單件買更省</p>
+        </div>
+    </div>
+    <!-- 下方 6 張＝後備（fallback·2026-07-28 從 /categories/bundle 實抓·不帶排序參數）：
+         順序＝後台「組合包專區」分類拖曳出來的順序，與 JS 正常抓到的一致。
+         JS 被擋/抓失敗時顯示這批；正常時會被最新資料覆蓋。
+         ⚠️ 同事在後台改順序「不會」改到這 6 張——這是寫死的備援快照。 -->
+    <div class="lnihm-bundle-row" role="region" aria-label="組合下殺">
+
+        <a class="lnihm-bundle-card" href="https://www.londonimg.tw/products/z35-1">
+            <div class="lnihm-bundle-photo" style="background-image:url('https://shoplineimg.com/57975b626170691220930c00/69a95cf3833b40c47281e4ab/720x.jpg')"><span class="lnihm-bundle-save">省 NT$410</span></div>
+            <div class="lnihm-bundle-body">
+                <div class="lnihm-bundle-title">【錶帶+錶框】F&amp;W 未來錶Apple Watch金屬錶帶+錶框 組合</div>
+                <div class="lnihm-bundle-prices"><span class="lnihm-bundle-now">NT$1,080</span><span class="lnihm-bundle-was">NT$1,490</span></div>
+            </div>
+        </a>
+
+        <a class="lnihm-bundle-card" href="https://www.londonimg.tw/products/gg51">
+            <div class="lnihm-bundle-photo" style="background-image:url('https://shoplineimg.com/57975b626170691220930c00/6909c058883d9e0010118bbe/720x.png')"><span class="lnihm-bundle-save">省 NT$1,241</span></div>
+            <div class="lnihm-bundle-body">
+                <div class="lnihm-bundle-title">極地冰岩殼+瞬貼無痕極地冰盾貼+玻璃鏡頭環+YU 本織長掛繩</div>
+                <div class="lnihm-bundle-prices"><span class="lnihm-bundle-now">NT$1,219</span><span class="lnihm-bundle-was">NT$2,460</span></div>
+            </div>
+        </a>
+
+        <a class="lnihm-bundle-card" href="https://www.londonimg.tw/products/gg28">
+            <div class="lnihm-bundle-photo" style="background-image:url('https://shoplineimg.com/57975b626170691220930c00/690476813c5637000a9495e7/720x.png')"><span class="lnihm-bundle-save">省 NT$871</span></div>
+            <div class="lnihm-bundle-body">
+                <div class="lnihm-bundle-title">《新機必備套組》極地冰岩殼+玻璃鏡頭環+瞬貼無痕極地冰盾貼</div>
+                <div class="lnihm-bundle-prices"><span class="lnihm-bundle-now">NT$999</span><span class="lnihm-bundle-was">NT$1,870</span></div>
+            </div>
+        </a>
+
+        <a class="lnihm-bundle-card" href="https://www.londonimg.tw/products/gg07">
+            <div class="lnihm-bundle-photo" style="background-image:url('https://shoplineimg.com/57975b626170691220930c00/6903157912e6f20012e77b58/720x.png')"><span class="lnihm-bundle-save">省 NT$440</span></div>
+            <div class="lnihm-bundle-body">
+                <div class="lnihm-bundle-title">新機必備 無敵防摔 極地冰岩殼 iPhone 手機保護殼+玻璃貼+瞬貼無痕極地冰盾貼Londonimg</div>
+                <div class="lnihm-bundle-prices"><span class="lnihm-bundle-now">NT$840</span><span class="lnihm-bundle-was">NT$1,280</span></div>
+            </div>
+        </a>
+
+        <a class="lnihm-bundle-card" href="https://www.londonimg.tw/products/gg49">
+            <div class="lnihm-bundle-photo" style="background-image:url('https://shoplineimg.com/57975b626170691220930c00/6909c0e1cb1ef7094aaa0dbe/720x.png')"><span class="lnihm-bundle-save">省 NT$1,341</span></div>
+            <div class="lnihm-bundle-body">
+                <div class="lnihm-bundle-title">零手感史上最薄手機殼+瞬貼無痕極地冰盾貼+玻璃鏡頭環+YU 本織長掛繩</div>
+                <div class="lnihm-bundle-prices"><span class="lnihm-bundle-now">NT$1,219</span><span class="lnihm-bundle-was">NT$2,560</span></div>
+            </div>
+        </a>
+
+        <a class="lnihm-bundle-card" href="https://www.londonimg.tw/products/gg45">
+            <div class="lnihm-bundle-photo" style="background-image:url('https://shoplineimg.com/57975b626170691220930c00/6908720581b61400123bca00/720x.png')"><span class="lnihm-bundle-save">省 NT$771</span></div>
+            <div class="lnihm-bundle-body">
+                <div class="lnihm-bundle-title">零手感史上最薄手機殼+玻璃鏡頭環+瞬貼無痕極地冰盾貼</div>
+                <div class="lnihm-bundle-prices"><span class="lnihm-bundle-now">NT$1,199</span><span class="lnihm-bundle-was">NT$1,970</span></div>
+            </div>
+        </a>
+
+    </div>
+    <!-- 頁次點點（JS 依頁數自動生成；只有 1 頁時不顯示）-->
+    <div class="lnihm-bundle-dots" role="tablist" aria-label="頁次"></div>
+    <div class="lnihm-bundle-foot">
+        <a class="lnihm-bundle-more" href="https://www.londonimg.tw/categories/bundle">更多組合</a>
+    </div>
+</div>
+<script>
+/* 自動同步：抓 /categories/bundle 解析組合包商品（名稱/售價/原價/圖），照分類頁原本的順序呈現。
+   排序完全交給後台「組合包專區」分類的拖曳結果，前端不加參數、也不自己排（方案 A）。
+   快取 12 小時（半天）省流量（分類頁約 1MB）；抓失敗/解析 0 筆時保留上方後備，不開天窗。 */
+(function(){
+  var root = document.getElementById('lnihmBundle');
+  if (!root || root.getAttribute('data-lnihm-init')) return;
+  root.setAttribute('data-lnihm-init', '1');
+  var row = root.querySelector('.lnihm-bundle-row');
+  var sub = root.querySelector('.lnihm-bundle-sub');
+  var dotsWrap = root.querySelector('.lnihm-bundle-dots');
+  /* ⚠️ 網址後面「不要」加任何排序參數（?sort_by=... / &order_by=...）。
+     不加＝拿到分類頁的預設順序＝同事在後台拖曳排出來的順序（方案 A 要的就是這個）。
+     一旦加了參數，就會蓋掉同事拖的順序，也會跟上方原生輪播元件對不起來。 */
+  var SRC = '/categories/bundle';
+  var KEY = 'lnihm_bundle_cache_v4';   // v3→v4：TTL 改成半天＝舊快取作廢，回訪客不會卡在舊資料
+
+  /* ================================================================
+     ⏱️  要改「多久抓一次最新資料」──── 改 這 裡 ────
+     ================================================================
+     下面那行 TTL，把「720」換成你要的分鐘數就好，其他都不用動。
+
+        720  ← 現在的設定＝**半天**（12 小時 × 60 ＝ 720 分鐘·2026-09-08 使用者指定）
+        360  ← 6 小時
+       1440  ← 一整天
+         30  ← 跟得更快，代價是抓取次數變多
+          0  ← 每次載入都在背景重抓（最即時；畫面仍先用上次的資料秒開，抓完才換）
+
+     ⚠️ 只改「720」這個數字，不要動後面的 * 60 * 1000
+        （那是把「分鐘」換算成程式用的「毫秒」，動了時間就會亂掉）
+
+     ⚠️ 改完之後，把上面那行 KEY 結尾的版本號 +1（v4 → v5，依此類推）。
+        不改的話，已經來過的訪客會繼續沿用舊快取，最久要等一輪舊 TTL 才會感覺到你改了。
+     ================================================================ */
+  var TTL = 720 * 60 * 1000;   // 半天（12 小時）·2026-09-08 使用者指定
+  /* ================ 要改更新時間，改上面那行就好 ================= */
+  var MAX = 8;                // 最多顯示幾張
+
+  function money(n){ return 'NT$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function cleanTitle(t){ return t.replace(/\u3010[^\u3011]*\u3011\s*$/, '').trim(); }  // 去尾端【品號】
+
+  function makeCard(p){
+    var a = document.createElement('a');
+    a.className = 'lnihm-bundle-card';
+    a.setAttribute('href', p.url);
+    var photo = document.createElement('div');
+    photo.className = 'lnihm-bundle-photo';
+    if (p.img) photo.style.backgroundImage = "url('" + p.img.replace(/'/g, '%27') + "')";
+    if (p.save > 0){
+      var save = document.createElement('span');
+      save.className = 'lnihm-bundle-save';
+      save.textContent = '省 ' + money(p.save);      // textContent → 防注入
+      photo.appendChild(save);
+    }
+    var body = document.createElement('div');
+    body.className = 'lnihm-bundle-body';
+    var title = document.createElement('div');
+    title.className = 'lnihm-bundle-title';
+    title.textContent = cleanTitle(p.title || '組合包');
+    var prices = document.createElement('div');
+    prices.className = 'lnihm-bundle-prices';
+    var now = document.createElement('span');
+    now.className = 'lnihm-bundle-now';
+    now.textContent = money(p.sale);
+    prices.appendChild(now);
+    if (p.reg && p.reg > p.sale){
+      var was = document.createElement('span');
+      was.className = 'lnihm-bundle-was';
+      was.textContent = money(p.reg);
+      prices.appendChild(was);
+    }
+    /* 2026-07-28 移除「組合選購 →」按鈕：整張卡本來就是 <a>，點哪裡都會進商品頁，
+       多一顆按鈕反而讓人以為「只有按到按鈕才有用」。 */
+    body.appendChild(title); body.appendChild(prices);
+    a.appendChild(photo); a.appendChild(body);
+    return a;
+  }
+
+  /* ---------- 分頁輪播（點點換頁·滑動規則同「限時優惠」） ---------- */
+  var page = 0, pv = 1, pages = 1, lock = false;
+  function cards(){ return [].slice.call(row.querySelectorAll('.lnihm-bundle-card')); }
+  function step(cs){ return cs.length > 1 ? (cs[1].offsetLeft - cs[0].offsetLeft) : (cs[0] ? cs[0].offsetWidth : 1); }
+  /* 自寫平滑捲動：behavior:'smooth' 遇 scroll-snap:mandatory 跨瀏覽器不穩→動畫期間暫關 snap，逐幀設 scrollLeft */
+  var twIv;
+  function tween(el, to, dur, done){
+    clearInterval(twIv); el.style.scrollSnapType = 'none';
+    var start = el.scrollLeft, change = to - start, t0 = Date.now();
+    if (Math.abs(change) < 1){ el.scrollLeft = to; el.style.scrollSnapType = ''; if (done) done(); return; }
+    twIv = setInterval(function(){
+      var p = Math.min(1, (Date.now() - t0) / dur);
+      el.scrollLeft = start + change * (1 - Math.pow(1 - p, 3));
+      if (p >= 1){ clearInterval(twIv); el.style.scrollSnapType = ''; if (done) done(); }
+    }, 16);
+  }
+  function build(){
+    var cs = cards(); if (!cs.length) return;
+    var s = step(cs); pv = Math.max(1, Math.round(row.clientWidth / s));   // 一頁塞得下幾張
+    pages = Math.ceil(cs.length / pv);
+    dotsWrap.innerHTML = '';
+    if (pages > 1){
+      for (var i = 0; i < pages; i++){
+        var b = document.createElement('button');
+        b.type = 'button'; b.setAttribute('aria-label', '第 ' + (i + 1) + ' 頁');
+        (function(idx){ b.addEventListener('click', function(){ go(idx); }); })(i);
+        dotsWrap.appendChild(b);
+      }
+    }
+    page = Math.min(page, pages - 1); mark();
+  }
+  /* 第 p 頁該捲到哪（夾在可捲範圍內）。
+     ⚠️ 不能用「pv × 卡寬」推算：本區卡片是固定 260px、不隨頁寬伸縮，
+        末頁會被 maxScroll 夾住 → 用比例公式算頁次會算錯（實測拖到末頁會彈回第 1 頁）。
+        改為實際取每頁的捲動位置，再挑最接近的那一頁，卡片寬度怎麼變都正確。 */
+  function pageLeft(p){
+    var cs = cards(); if (!cs.length) return 0;
+    var idx = Math.min(p * pv, cs.length - 1);
+    var maxSc = row.scrollWidth - row.clientWidth;
+    return Math.max(0, Math.min(cs[idx].offsetLeft - cs[0].offsetLeft, maxSc));
+  }
+  function nearestPage(){
+    var best = 0, bd = Infinity;
+    for (var i = 0; i < pages; i++){
+      var d = Math.abs(row.scrollLeft - pageLeft(i));
+      if (d < bd){ bd = d; best = i; }
+    }
+    return best;
+  }
+  /* 動畫速度＝比照原生熱銷排行 owl 的 smartSpeed:250 */
+  var SPEED = 250;
+  function go(p){
+    p = Math.max(0, Math.min(p, pages - 1)); page = p;
+    lock = true; tween(row, pageLeft(p), SPEED, function(){ lock = false; });
+    mark();
+  }
+  /* 【三區共用的拖曳規則】放開後依「拖了多遠」決定前進幾張：
+       · 拖超過 1/3 張 → 跳下一張（不是跳一整頁）
+       · 不到 1/3      → 彈回原位
+       · 拖很遠        → 一次前進多張（full 為整數張數）
+     比照本站原生「熱銷排行」owl 的 slideBy:1（逐張）＋ freeDrag:false（一定吸附），
+     但門檻採 1/3（使用者指定，比 owl 的 1/2 更靈敏，輕撥就換卡）。
+     ⚠️ 限時優惠／KOL 實搭／組合下殺三個區塊使用同一套邏輯，改動請三處一起改。 */
+  var THIRD = 1 / 3;
+  function snapByThird(){
+    var cs = cards(); if (!cs.length) return;
+    var s = step(cs), maxSc = row.scrollWidth - row.clientWidth, base = cs[0].offsetLeft;
+    var delta = row.scrollLeft - dScroll;                 // dScroll＝按下當下的位置
+    var a = Math.abs(delta), full = Math.floor(a / s), rem = a - full * s;
+    var adv = full + (rem >= s * THIRD ? 1 : 0);          // 前進幾張
+    var target = dScroll + (delta < 0 ? -1 : 1) * adv * s;
+    target = Math.max(0, Math.min(target, maxSc));
+    var best = target, bd = Infinity;                     // 對齊到最接近的卡片邊界
+    for (var i = 0; i < cs.length; i++){
+      var v = Math.max(0, Math.min(cs[i].offsetLeft - base, maxSc));
+      var d = Math.abs(target - v);
+      if (d < bd){ bd = d; best = v; }
+    }
+    lock = true;
+    tween(row, best, SPEED, function(){ lock = false; page = nearestPage(); mark(); });
+  }
+  function mark(){ var k = dotsWrap.children; for (var i = 0; i < k.length; i++) k[i].setAttribute('aria-current', i === page ? 'true' : 'false'); }
+  function onScroll(){
+    if (lock || pages <= 1) return;
+    var p = nearestPage();
+    if (p !== page){ page = p; mark(); }
+  }
+  var st; row.addEventListener('scroll', function(){ clearTimeout(st); st = setTimeout(onScroll, 60); }, { passive: true });
+  var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(build, 150); });
+
+  /* ---------- 滑鼠按住卡片拖曳換頁（僅桌機滑鼠；觸控維持原生慣性滑動） ----------
+     ⚠️⚠️ 絕對不要用 setPointerCapture ⚠️⚠️（2026-07-25 實測踩過的雷）
+     一旦在 pointerdown 把指標綁到 row，放開時瀏覽器會把 click 算在 row 身上，
+     裡面的 <a>（整張組合卡）就永遠收不到 click ＝ 所有卡片都點不開。
+     已用 A/B 最小重現驗證：有 capture → click target=DIV（死）；無 capture → click target=A（活）。
+     正確做法＝拖曳期間把 move/up 掛到 window，照樣能拖出容器外，但 click 正常送到連結。 */
+  var dDown = false, dMoved = false, dX = 0, dScroll = 0;
+  var DRAG_MIN = 8;   // 門檻 8px：一般點擊的手抖（1–3px）不會被誤判成拖曳而吃掉 click
+  function onMove(e){
+    if (!dDown || e.pointerType !== 'mouse') return;
+    var dx = e.clientX - dX;
+    if (Math.abs(dx) > DRAG_MIN) dMoved = true;
+    if (dMoved){ row.scrollLeft = dScroll - dx; e.preventDefault(); }
+  }
+  function dEnd(){
+    if (!dDown) return; dDown = false;
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', dEnd);
+    window.removeEventListener('pointercancel', dEnd);
+    row.classList.remove('lnihm-grabbing');
+    /* ⚠️ 不可在這裡還原 scroll-snap：一還原，瀏覽器會立刻把 scrollLeft 吸回最近的吸附點，
+       等於在我們量「到底拖了多遠」之前就把位移吃掉（實測拖 0.4 張會被判成 0 張）。
+       → 有拖曳時交給 tween() 收尾時還原；沒拖曳才在這裡直接還原。 */
+    if (dMoved) snapByThird();            // 放開 → 拖超過 1/3 張就跳下一張
+    else row.style.scrollSnapType = '';
+  }
+  row.addEventListener('pointerdown', function(e){
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    dDown = true; dMoved = false; dX = e.clientX; dScroll = row.scrollLeft;
+    row.style.scrollSnapType = 'none'; row.classList.add('lnihm-grabbing');
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', dEnd);
+    window.addEventListener('pointercancel', dEnd);
+  });
+  /* 真的拖過門檻才攔掉 click（免得拖一下就開連結）；沒拖＝讓 click 正常送到 <a> */
+  row.addEventListener('click', function(e){ if (dMoved){ e.preventDefault(); e.stopPropagation(); dMoved = false; } }, true);
+
+  function render(list){
+    if (!list || !list.length) return;              // 空 → 保留後備
+    row.innerHTML = '';
+    var shown = list.slice(0, MAX);
+    shown.forEach(function(p){ row.appendChild(makeCard(p)); });
+    /* 副標補上「實際」最大省額（動態算·不會過期說錯）。
+       ⚠️ 改成依上架時間排序後，第一張不再是省最多的那張 →
+          必須掃過「有顯示出來的卡片」取最大值，否則「最高省 NT$X」會說謊。 */
+    var maxSave = 0;
+    shown.forEach(function(p){ if (p.save > maxSave) maxSave = p.save; });
+    if (sub && maxSave > 0){
+      /* ⛔ 2026-09-12 Anita 指示：拿掉後面那句「· 點下方切換或左右滑動」。
+         副標只留「成套帶回最高省 NT$X」。
+         ⚠️ 不要好心加回操作提示——那是刻意拿掉的，不是漏寫。 */
+      sub.textContent = '成套帶回最高省 ' + money(maxSave);
+    }
+    page = 0; build();                              // 重繪後重新算頁次點點
+  }
+
+  /* 解析分類頁：每個 .productList__product 區塊 → 連結/標題/售價/原價/圖 */
+  function parse(html){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var items = doc.querySelectorAll('.productList__product');
+    var seen = {}, out = [];
+    for (var i = 0; i < items.length; i++){
+      var el = items[i];
+      var a = el.querySelector('a[href*="/products/"]');
+      var t = el.querySelector('.title');
+      var saleEl = el.querySelector('.price__sale');
+      if (!a || !t || !saleEl) continue;
+      var url = (a.getAttribute('href') || '').split('?')[0];
+      if (!url || seen[url]) continue;
+      var num = function(el2){
+        if (!el2) return 0;
+        var m = (el2.textContent || '').replace(/,/g, '').match(/(\d+)/);
+        return m ? parseInt(m[1], 10) : 0;
+      };
+      var sale = num(saleEl);
+      if (!sale) continue;
+      var reg = num(el.querySelector('.price-crossed'));
+      // 圖：data-srcset 取最接近 720 寬的那張
+      var img = '', imgEl = el.querySelector('img[data-srcset], img[srcset], img[data-src], img[src]');
+      if (imgEl){
+        var ss = imgEl.getAttribute('data-srcset') || imgEl.getAttribute('srcset') || '';
+        var best = null, bestD = 1e9, re = /(https:\/\/[^\s,"]+?\/(\d+)x\.[a-z]+)\?/g, m2;
+        while ((m2 = re.exec(ss)) !== null){
+          var d = Math.abs(parseInt(m2[2], 10) - 720);
+          if (d < bestD){ bestD = d; best = m2[1]; }
+        }
+        img = best || imgEl.getAttribute('data-src') || imgEl.getAttribute('src') || '';
+      }
+      if (!/^https:\/\//i.test(img)) continue;      // 圖片只收 https
+      seen[url] = 1;
+      out.push({ url: url, title: (t.textContent || '').trim(), sale: sale, reg: reg,
+                 save: (reg && reg > sale) ? (reg - sale) : 0, img: img });
+    }
+    /* ⭐ 這裡「不排序」是刻意的（方案 A）：
+       分類頁的 DOM 順序＝同事在後台拖曳排出來的順序，照原順序回傳，前端不要多事。
+       在這裡加任何 out.sort(...)，就等於推翻同事在後台排的順序，也會跟原生輪播對不起來。 */
+    return out;
+  }
+
+  function refresh(){
+    fetch(SRC, { credentials: 'same-origin' })
+      .then(function(r){ return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function(html){
+        var list = parse(html);
+        if (list.length){
+          render(list);
+          try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), list: list.slice(0, MAX) })); } catch(e){}
+        }
+      })
+      .catch(function(){ /* 保留目前顯示（快取或後備） */ });
+  }
+
+  build();   // 先為後備卡算好頁次點點（抓取失敗時也有正常的分頁）
+
+  var usedCache = false;
+  try {
+    var c = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (c && c.list && c.list.length){
+      render(c.list);                          // 先用快取秒開
+      usedCache = true;
+      if (Date.now() - c.t > TTL) refresh();   // 過期 → 背景更新
+    }
+  } catch(e){}
+  if (!usedCache) refresh();                   // 無快取 → 抓一次
+})();
+</script>
