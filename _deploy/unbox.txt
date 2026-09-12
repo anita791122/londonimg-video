@@ -1,0 +1,331 @@
+<style>#lnihmUnbox{max-width:var(--lnihm-maxw,1180px);margin:24px auto;padding:0 var(--lnihm-pad,22px);font-family:var(--lnihm-font,-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif)}
+#lnihmUnbox *{box-sizing:border-box}
+#lnihmUnbox .lnihm-unbox-hd{margin-bottom:26px}
+#lnihmUnbox .lnihm-unbox-hd h3{font-size:var(--lnihm-h2,27px);font-weight:900;letter-spacing:-.01em;color:var(--lnihm-ink,#0b0b0f);margin:0}
+#lnihmUnbox .lnihm-unbox-hd p{font-size:14px;color:var(--lnihm-ink-soft,#5b5b66);margin:5px 0 0}
+
+#lnihmUnbox .lnihm-unbox-foot{display:flex;justify-content:center;margin-top:12px;margin-bottom:48px}
+#lnihmUnbox .lnihm-unbox-more{display:inline-flex;align-items:center;justify-content:center;padding:12px 80px;background:#2c2c2c;border:1px solid #2c2c2c;border-radius:3px;color:#fff!important;font-size:16px;font-weight:400;line-height:1.4;text-decoration:none!important;white-space:nowrap;max-width:100%;transition:.2s}
+#lnihmUnbox .lnihm-unbox-more:hover{background:#fff;color:#2c2c2c!important;border-color:#2c2c2c}
+
+#lnihmUnbox .lnihm-unbox-row{display:flex;flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:16px;padding:4px 2px 2px;scrollbar-width:none}
+#lnihmUnbox .lnihm-unbox-row::-webkit-scrollbar{display:none}
+#lnihmUnbox .lnihm-unbox-row{cursor:grab}
+#lnihmUnbox .lnihm-unbox-row.lnihm-grabbing{cursor:grabbing;user-select:none}
+#lnihmUnbox .lnihm-unbox-card{-webkit-user-drag:none}
+
+#lnihmUnbox .lnihm-unbox-dots{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:14px;min-height:10px}
+#lnihmUnbox .lnihm-unbox-dots:empty{display:none}
+#lnihmUnbox .lnihm-unbox-dots button{width:10px;height:10px;padding:0;border:0;border-radius:999px;background:#e6e6ec;cursor:pointer;transition:background .2s;-webkit-appearance:none;appearance:none}
+#lnihmUnbox .lnihm-unbox-dots button[aria-current="true"]{background:#2c2c2c}
+
+#lnihmUnbox .lnihm-unbox-card{flex:0 0 260px;scroll-snap-align:start;display:flex;flex-direction:column;border:1px solid var(--lnihm-line,#e8e8ee);overflow:hidden;background:#fff;text-decoration:none!important;transition:.2s}
+#lnihmUnbox .lnihm-unbox-card:hover{border-color:#d8d8e2}
+#lnihmUnbox .lnihm-unbox-photo{position:relative;height:180px;background:var(--lnihm-bg-soft,#f5f5f7) center/cover no-repeat}
+#lnihmUnbox .lnihm-unbox-tag{position:absolute;top:12px;left:12px;font-size:11px;font-weight:800;letter-spacing:.04em;color:#fff;background:rgba(0,0,0,.42);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:4px 10px;border-radius:var(--lnihm-radius-pill,999px)}
+#lnihmUnbox .lnihm-unbox-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;flex:1}
+#lnihmUnbox .lnihm-unbox-title{font-size:14.5px;font-weight:700;line-height:1.5;color:var(--lnihm-ink,#0b0b0f)}
+#lnihmUnbox .lnihm-unbox-cta{font-size:13px;font-weight:800;letter-spacing:.03em;color:var(--lnihm-accent,#0a84ff);margin-top:auto}
+
+@media(max-width:767px){
+#lnihmUnbox{padding:0 var(--lnihm-pad-m,16px)}
+#lnihmUnbox .lnihm-unbox-hd{margin-bottom:18px}
+#lnihmUnbox .lnihm-unbox-hd h2{font-size:var(--lnihm-h2-m,22px)}
+#lnihmUnbox .lnihm-unbox-card{flex:0 0 78vw;max-width:300px}
+}
+</style>
+<div id="lnihmUnbox">
+    <div class="lnihm-unbox-hd">
+        <div>
+            <h3>真實開箱 ‧ 產品實照</h3>
+            <p>來自倫印好物開箱趣的分享</p>
+        </div>
+    </div>
+
+    <div class="lnihm-unbox-row" role="region" aria-label="真實開箱">
+
+        <a class="lnihm-unbox-card" href="https://www.londonimg.tw/blog/posts/jarch-apple-watch-starlight-band">
+            <div class="lnihm-unbox-photo" style="background-image:url('https://shoplineimg.com/57975b626170691220930c00/6a6c4257953bc93ce4175522/800x.png')"><span class="lnihm-unbox-tag">開箱</span></div>
+            <div class="lnihm-unbox-body">
+                <div class="lnihm-unbox-title">【開箱】J/arch. Apple Watch 女款不鏽鋼錶帶 星光色系列 JA21</div>
+                <span class="lnihm-unbox-cta">看開箱 →</span>
+            </div>
+        </a>
+
+        <a class="lnihm-unbox-card" href="https://www.londonimg.tw/blog/posts/navjack-rampart-military-grade-case">
+            <div class="lnihm-unbox-photo" style="background-image:url('https://shoplineimg.com/57975b626170691220930c00/6058867cf149ea002c215a32/800x.jpg')"><span class="lnihm-unbox-tag">開箱</span></div>
+            <div class="lnihm-unbox-body">
+                <div class="lnihm-unbox-title">【開箱】白裡透黑的防摔意志 - Rampart Serie</div>
+                <span class="lnihm-unbox-cta">看開箱 →</span>
+            </div>
+        </a>
+
+        <a class="lnihm-unbox-card" href="https://www.londonimg.tw/blog/posts/rhinoshield-solidsuit-protective-case">
+            <div class="lnihm-unbox-photo" style="background-image:url('https://shoplineimg.com/57975b626170691220930c00/605331f7a6c51c003e89610e/800x.jpg')"><span class="lnihm-unbox-tag">開箱</span></div>
+            <div class="lnihm-unbox-body">
+                <div class="lnihm-unbox-title">【開箱】追求完美 X 成就高度 - P09 犀牛盾 SolidSuit</div>
+                <span class="lnihm-unbox-cta">看開箱 →</span>
+            </div>
+        </a>
+
+        <a class="lnihm-unbox-card" href="https://www.londonimg.tw/blog/posts/spigen-apple-watch-protective-case">
+            <div class="lnihm-unbox-photo" style="background-image:url('https://shoplineimg.com/57975b626170691220930c00/60531da4b522d3001a57c2b1/800x.jpg')"><span class="lnihm-unbox-tag">開箱</span></div>
+            <div class="lnihm-unbox-body">
+                <div class="lnihm-unbox-title">【開箱】搶購一空的明星商品『R70 - Spigen Apple Watch 防摔保護殼』</div>
+                <span class="lnihm-unbox-cta">看開箱 →</span>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="lnihm-unbox-dots" role="tablist" aria-label="頁次"></div>
+    <div class="lnihm-unbox-foot">
+
+        <a class="lnihm-unbox-more" href="https://www.londonimg.tw/blog/categories/unboxing-review">更多開箱</a>
+    </div>
+</div>
+<script>(function(){
+  var root = document.getElementById('lnihmUnbox');
+  if (!root || root.getAttribute('data-lnihm-init')) return;
+  root.setAttribute('data-lnihm-init', '1');
+  var row = root.querySelector('.lnihm-unbox-row');
+  var dotsWrap = root.querySelector('.lnihm-unbox-dots');
+  var SRC = '/blog/categories/unboxing-review';
+
+  var KEY = 'lnihm_unbox_cache_v3';
+
+  var TTL = 720 * 60 * 1000;
+
+  var MAX = 8;
+
+  function makeCard(p){
+    var a = document.createElement('a');
+    a.className = 'lnihm-unbox-card';
+    a.setAttribute('href', p.url);
+    var photo = document.createElement('div');
+    photo.className = 'lnihm-unbox-photo';
+    if (p.img) photo.style.backgroundImage = "url('" + p.img.replace(/'/g, "%27") + "')";
+    var tag = document.createElement('span');
+    tag.className = 'lnihm-unbox-tag';
+    tag.textContent = '開箱';
+    photo.appendChild(tag);
+    var body = document.createElement('div');
+    body.className = 'lnihm-unbox-body';
+    var title = document.createElement('div');
+    title.className = 'lnihm-unbox-title';
+    title.textContent = p.title || '開箱分享';
+    var cta = document.createElement('span');
+    cta.className = 'lnihm-unbox-cta';
+    cta.textContent = '看開箱 →';
+    body.appendChild(title);
+    body.appendChild(cta);
+    a.appendChild(photo);
+    a.appendChild(body);
+    return a;
+  }
+
+  var page = 0, pv = 1, pages = 1, lock = false;
+  function cards(){ return [].slice.call(row.querySelectorAll('.lnihm-unbox-card')); }
+  function step(cs){ return cs.length > 1 ? (cs[1].offsetLeft - cs[0].offsetLeft) : (cs[0] ? cs[0].offsetWidth : 1); }
+
+  var twIv;
+  function tween(el, to, dur, done){
+    clearInterval(twIv); el.style.scrollSnapType = 'none';
+    var start = el.scrollLeft, change = to - start, t0 = Date.now();
+    if (Math.abs(change) < 1){ el.scrollLeft = to; el.style.scrollSnapType = ''; if (done) done(); return; }
+    twIv = setInterval(function(){
+      var p = Math.min(1, (Date.now() - t0) / dur);
+      el.scrollLeft = start + change * (1 - Math.pow(1 - p, 3));
+      if (p >= 1){ clearInterval(twIv); el.style.scrollSnapType = ''; if (done) done(); }
+    }, 16);
+  }
+  function build(){
+    var cs = cards(); if (!cs.length) return;
+    var s = step(cs); pv = Math.max(1, Math.round(row.clientWidth / s));
+    pages = Math.ceil(cs.length / pv);
+    dotsWrap.innerHTML = '';
+    if (pages > 1){
+      for (var i = 0; i < pages; i++){
+        var b = document.createElement('button');
+        b.type = 'button'; b.setAttribute('aria-label', '第 ' + (i + 1) + ' 頁');
+        (function(idx){ b.addEventListener('click', function(){ go(idx); }); })(i);
+        dotsWrap.appendChild(b);
+      }
+    }
+    page = Math.min(page, pages - 1); mark();
+  }
+
+  function pageLeft(p){
+    var cs = cards(); if (!cs.length) return 0;
+    var idx = Math.min(p * pv, cs.length - 1);
+    var maxSc = row.scrollWidth - row.clientWidth;
+    return Math.max(0, Math.min(cs[idx].offsetLeft - cs[0].offsetLeft, maxSc));
+  }
+  function nearestPage(){
+    var best = 0, bd = Infinity;
+    for (var i = 0; i < pages; i++){
+      var d = Math.abs(row.scrollLeft - pageLeft(i));
+      if (d < bd){ bd = d; best = i; }
+    }
+    return best;
+  }
+  var SPEED = 250;
+  function go(p){
+    p = Math.max(0, Math.min(p, pages - 1)); page = p;
+    lock = true; tween(row, pageLeft(p), SPEED, function(){ lock = false; });
+    mark();
+  }
+
+  var THIRD = 1 / 3;
+  function snapByThird(){
+    var cs = cards(); if (!cs.length) return;
+    var s = step(cs), maxSc = row.scrollWidth - row.clientWidth, base = cs[0].offsetLeft;
+    var delta = row.scrollLeft - dScroll;
+    var a = Math.abs(delta), full = Math.floor(a / s), rem = a - full * s;
+    var adv = full + (rem >= s * THIRD ? 1 : 0);
+    var target = dScroll + (delta < 0 ? -1 : 1) * adv * s;
+    target = Math.max(0, Math.min(target, maxSc));
+    var best = target, bd = Infinity;
+    for (var i = 0; i < cs.length; i++){
+      var vv = Math.max(0, Math.min(cs[i].offsetLeft - base, maxSc));
+      var d = Math.abs(target - vv);
+      if (d < bd){ bd = d; best = vv; }
+    }
+    lock = true;
+    tween(row, best, SPEED, function(){ lock = false; page = nearestPage(); mark(); });
+  }
+  function mark(){ var k = dotsWrap.children; for (var i = 0; i < k.length; i++) k[i].setAttribute('aria-current', i === page ? 'true' : 'false'); }
+  function onScroll(){
+    if (lock || pages <= 1) return;
+    var p = nearestPage();
+    if (p !== page){ page = p; mark(); }
+  }
+  var st; row.addEventListener('scroll', function(){ clearTimeout(st); st = setTimeout(onScroll, 60); }, { passive: true });
+  var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(build, 150); });
+
+  var dDown = false, dMoved = false, dX = 0, dScroll = 0;
+  var DRAG_MIN = 8;
+  function onMove(e){
+    if (!dDown || e.pointerType !== 'mouse') return;
+    var dx = e.clientX - dX;
+    if (Math.abs(dx) > DRAG_MIN) dMoved = true;
+    if (dMoved){ row.scrollLeft = dScroll - dx; e.preventDefault(); }
+  }
+  function dEnd(){
+    if (!dDown) return; dDown = false;
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', dEnd);
+    window.removeEventListener('pointercancel', dEnd);
+    row.classList.remove('lnihm-grabbing');
+
+    if (dMoved) snapByThird();
+    else row.style.scrollSnapType = '';
+  }
+  row.addEventListener('pointerdown', function(e){
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    dDown = true; dMoved = false; dX = e.clientX; dScroll = row.scrollLeft;
+    row.style.scrollSnapType = 'none'; row.classList.add('lnihm-grabbing');
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', dEnd);
+    window.addEventListener('pointercancel', dEnd);
+  });
+
+  row.addEventListener('click', function(e){ if (dMoved){ e.preventDefault(); e.stopPropagation(); dMoved = false; } }, true);
+
+  function render(posts){
+    if (!posts || !posts.length) return;
+    row.innerHTML = '';
+    posts.slice(0, MAX).forEach(function(p){ row.appendChild(makeCard(p)); });
+    page = 0; build();
+  }
+
+  function pickImg(img){
+    var ss = img.getAttribute('data-srcset') || img.getAttribute('srcset') || '';
+    if (ss){
+      var best = '', bestW = 0;
+      ss.split(',').forEach(function(part){
+        var seg = part.trim().split(/\s+/);
+        var u = (seg[0] || '').replace(/\?$/, '');
+        var w = parseInt(seg[1] || '0', 10);
+        if (u && w >= bestW && w <= 800){ bestW = w; best = u; }
+      });
+      if (best) return best;
+    }
+    return img.getAttribute('data-src') || img.getAttribute('src') || '';
+  }
+
+  function parse(html){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var anchors = doc.querySelectorAll('.PostList a[href^="/blog/posts/"], .List-item a[href^="/blog/posts/"]');
+    var seen = {}, posts = [];
+    for (var i = 0; i < anchors.length; i++){
+      var a = anchors[i];
+      var url = (a.getAttribute('href') || '').split('?')[0];
+      if (!url || url === '/blog/posts' || seen[url]) continue;
+      seen[url] = 1;
+
+      var img = a.querySelector('img');
+      var src = img ? pickImg(img) : '';
+      var h = a.querySelector('.List-item-title') || a.querySelector('h2, h3');
+      var t = h ? h.textContent.replace(/\s+/g, ' ').trim() : '';
+      if (!t) continue;
+      posts.push({ title: t, img: src, url: url });
+    }
+    return posts;
+  }
+
+  function toCdn(u){
+    var m = u.match(/image_clips\/([0-9a-f]{24})\/original\.(\w+)/i);
+    var o = u.match(/owner_id=([0-9a-f]{24})/i);
+    if (m && o) return 'https://shoplineimg.com/' + o[1] + '/' + m[1] + '/800x.' + m[2];
+    return u;
+  }
+
+  function fillMissingCovers(posts){
+    var need = posts.slice(0, MAX).filter(function(p){ return !p.img; });
+    if (!need.length) return Promise.resolve(false);
+    return Promise.all(need.map(function(p){
+      return fetch(p.url, { credentials: 'same-origin' })
+        .then(function(r){ return r.ok ? r.text() : Promise.reject(r.status); })
+        .then(function(html){
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var scope = doc.querySelector('.Post-content') || doc.querySelector('.ck-content') || doc.body;
+          var im = scope.querySelector('img');
+          if (im){
+            var s = pickImg(im);
+            if (s) p.img = toCdn(s);
+          }
+        })
+        .catch(function(){   });
+    })).then(function(){ return true; });
+  }
+
+  function refresh(){
+    fetch(SRC, { credentials: 'same-origin' })
+      .then(function(r){ return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function(html){
+        var posts = parse(html);
+        if (!posts.length) return;
+        render(posts);
+        return fillMissingCovers(posts).then(function(didFill){
+          if (didFill) render(posts);
+          try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), posts: posts })); } catch(e){}
+        });
+      })
+      .catch(function(){   });
+  }
+
+  build();
+
+  var usedCache = false;
+  try {
+    var c = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (c && c.posts && c.posts.length){
+      render(c.posts);
+      usedCache = true;
+      if (Date.now() - c.t > TTL) refresh();
+    }
+  } catch(e){}
+  if (!usedCache) refresh();
+})();
+</script>

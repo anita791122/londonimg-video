@@ -1,0 +1,24 @@
+<style>.lnihm-cta{background: linear-gradient(135deg,var(--lnihm-bg-soft,#f5f5f7),#ececf1);color:#0b0b0f;text-align:center;font-family:var(--lnihm-font,-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif)}
+.lnihm-cta .in{max-width:var(--lnihm-maxw,1180px);margin:0 auto;padding:54px 22px}
+.lnihm-cta h2{font-size:28px;font-weight:900;margin:0 0 8px;line-height:1.25}
+.lnihm-cta p{opacity:.92;font-size:15px;margin:0 0 22px}
+.lnihm-cta .btns{display:flex;justify-content:center;flex-wrap:wrap}
+.lnihm-cta .btns a{padding:13px 26px;border-radius:3px;font-weight:800;font-size:15px;text-decoration:none;margin:0 6px 10px;display:inline-block}
+.lnihm-cta .b1{background:#06c755;color:#fff!important;border:1px solid #06c755}
+.lnihm-cta .b1:hover{background:#fff;color:#06c755!important;border:1px solid #06c755}
+.lnihm-cta .b2{background:#fff;color:var(--lnihm-ink,#0b0b0f)!important}
+@media(max-width:767px){
+    .lnihm-cta .in{padding:40px 18px}
+    .lnihm-cta h2{font-size:23px}
+    .lnihm-cta .btns a{width:100%;margin:0 0 10px}}
+</style>
+<div class="lnihm-cta">
+    <div class="in">
+
+        <h2>加入 LINE 搶先掌握新訊息</h2>
+        <p>新品上市優先通知 ‧ 首購享優惠 ‧ 相容性即時諮詢</p>
+        <div class="btns">
+            <a class="b1" href="https://page.line.me/londonimg" target="_blank" rel="noopener">加入 LINE 好友</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,310 @@
+<style>#lnihmPromo{max-width:var(--lnihm-maxw,1180px);margin:0 auto;padding:0 var(--lnihm-pad,22px);font-family:var(--lnihm-font,-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif);margin-bottom:24px}
+#lnihmPromo *{box-sizing:border-box}
+#lnihmPromo .lnihm-promo-hd{display:flex;flex-direction:row;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:15px}
+#lnihmPromo .lnihm-promo-hd h3{font-size:var(--lnihm-h2,27px);font-weight:900;letter-spacing:-.01em;color:var(--lnihm-ink,#0b0b0f);margin:0}
+#lnihmPromo .lnihm-promo-hd p{font-size:14px;color:var(--lnihm-ink-soft,#5b5b66);margin:5px 0 0}
+
+#lnihmPromo .lnihm-promo-row{--pv:4;display:flex;flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:14px;padding:4px 2px 2px;scrollbar-width:none}
+#lnihmPromo .lnihm-promo-row::-webkit-scrollbar{display:none}
+
+#lnihmPromo .lnihm-promo-row{cursor:grab}
+#lnihmPromo .lnihm-promo-row.lnihm-grabbing{cursor:grabbing;user-select:none}
+#lnihmPromo .lnihm-promo-card{-webkit-user-drag:none}
+@media(max-width:991px){#lnihmPromo .lnihm-promo-row{--pv:2}}
+@media(max-width:767px){#lnihmPromo .lnihm-promo-row{--pv:1}}
+
+#lnihmPromo .lnihm-promo-card{flex:0 0 auto;scroll-snap-align:start;display:block;position:relative;height:220px;overflow:hidden;text-decoration:none!important;color:#fff!important;transition:.2s}
+
+#lnihmPromo .lnihm-promo-card{flex-basis:calc((100% - 3*14px)/4)}
+@media(max-width:991px){#lnihmPromo .lnihm-promo-card{flex-basis:calc((100% - 1*14px)/2)}}
+@media(max-width:767px){#lnihmPromo .lnihm-promo-card{flex-basis:calc((100% - 1*14px)/2)}}
+
+#lnihmPromo .lnihm-promo-bg{position:absolute;top:0;left:0;right:0;bottom:0;z-index:0}
+#lnihmPromo .lnihm-promo-cnt{position:relative;z-index:2;height:100%;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+#lnihmPromo .lnihm-promo-tag{display:inline-block;align-self:flex-start;font-size:11.5px;font-weight:800;letter-spacing:.06em;background:rgba(255,255,255,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;padding:4px 11px;border-radius:var(--lnihm-radius-pill,999px)}
+#lnihmPromo .lnihm-promo-main{display:flex;flex-direction:column;gap:4px}
+#lnihmPromo .lnihm-promo-ttl{font-size:16px;line-height:1.3;opacity:.95}
+#lnihmPromo .lnihm-promo-big{font-size:38px;font-weight:900;line-height:1;letter-spacing:-.02em;color:#ffd54a}
+#lnihmPromo .lnihm-promo-big small{font-size:18px;font-weight:700;color:#fff;margin-left:2px}
+#lnihmPromo .lnihm-promo-sub{font-size:12px;font-weight:600;opacity:.85;line-height:1.45}
+#lnihmPromo .lnihm-promo-cta{display:inline-block;align-self:flex-start;font-size:13px;font-weight:800;letter-spacing:.04em;background:#fff;color:var(--lnihm-ink,#0b0b0f);padding:9px 16px;border-radius:3px;transition:.15s}
+#lnihmPromo .lnihm-promo-card:hover .lnihm-promo-cta{background:var(--lnihm-ink,#0b0b0f);color:#fff;transform:translateX(2px)}
+#lnihmPromo .lnihm-promo-m{font-size:28px;font-weight:900;line-height:1;letter-spacing:-.02em;color:#ffd54a}
+
+#lnihmPromo .lnihm-promo-u{display:inline-block;white-space:nowrap}
+
+#lnihmPromo .lnihm-promo-tier{font-size:14px;line-height:20px}
+#lnihmPromo .lnihm-promo-sep{margin:0 2px;opacity:.6}
+
+#lnihmPromo .lnihm-promo-card:nth-child(1) .lnihm-promo-bg{background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.55) 100%),url(https://img.shoplineapp.com/media/image_clips/6a5ef169a4b6a2a87dea62a6/original.png?1784607080=&amp;owner_id=57975b626170691220930c00) center/cover no-repeat,linear-gradient(135deg,#5e6b58,#3d473c)}
+#lnihmPromo .lnihm-promo-card:nth-child(2) .lnihm-promo-bg{background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.50) 100%),url(https://img.shoplineapp.com/media/image_clips/6a5eed490af6b2a208d6ed94/original.png?1784606024=&amp;owner_id=57975b626170691220930c00) center/cover no-repeat,linear-gradient(135deg,#9caa6c,#7d8a55)}
+#lnihmPromo .lnihm-promo-card:nth-child(3) .lnihm-promo-bg{background:linear-gradient(180deg,rgba(0,0,0,.40) 0%,rgba(0,0,0,.40) 100%),url(https://img.shoplineapp.com/media/image_clips/6a62ff3d2fe9c257b7c66881/original.png?1784872764=&amp;owner_id=57975b626170691220930c00) center/cover no-repeat,linear-gradient(135deg,#3a4a5f,#232d3a)}
+#lnihmPromo .lnihm-promo-card:nth-child(4) .lnihm-promo-bg{background:linear-gradient(180deg,rgba(0,0,0,.38) 0%,rgba(0,0,0,.60) 100%),url(https://img.shoplineapp.com/media/image_clips/6a634651e54caf555436838b/original.png?1784890961=&amp;owner_id=57975b626170691220930c00) center/cover no-repeat,linear-gradient(135deg,#2f6b6b,#1f4a4a)}
+#lnihmPromo .lnihm-promo-card:nth-child(5) .lnihm-promo-bg{background:linear-gradient(180deg,rgba(0,0,0,.0) 0%,rgba(0,0,0,.10) 100%),url(https://img.shoplineapp.com/media/image_clips/6a5ef1f9082a3a3d15f448bd/original.png?1784607225=&amp;owner_id=57975b626170691220930c00) center/cover no-repeat,linear-gradient(135deg,#1c1c22,#3a3a48)}
+#lnihmPromo .lnihm-promo-card:nth-child(6) .lnihm-promo-bg{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.60) 100%),url(https://img.shoplineapp.com/media/image_clips/6a630fe6a9ecc234ab878147/original.png?1784877029=&amp;owner_id=57975b626170691220930c00) center/cover no-repeat,linear-gradient(135deg,#b5541f,#7d3a15)}
+#lnihmPromo .lnihm-promo-card:nth-child(7) .lnihm-promo-bg{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.55) 100%),url(https://img.shoplineapp.com/media/image_clips/6a5eec43fd390e6eaee19853/original.png?1784605763=&amp;owner_id=57975b626170691220930c00) center/cover no-repeat,linear-gradient(135deg,#0a2540,#1e3a5f)}
+#lnihmPromo .lnihm-promo-card:nth-child(8) .lnihm-promo-bg{background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,.60) 100%),url(https://img.shoplineapp.com/media/image_clips/6a5eed80292c6ccd243727bc/original.png?1784606080=&amp;owner_id=57975b626170691220930c00) center/cover no-repeat,linear-gradient(135deg,#6b3a1f,#9c5530)}
+
+@media(min-width:768px){
+#lnihmPromo .lnihm-promo-card:nth-child(2) .lnihm-promo-big{font-size:26px;letter-spacing:0}
+}
+
+#lnihmPromo .lnihm-promo-dots{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:14px;min-height:10px}
+#lnihmPromo .lnihm-promo-dots:empty{display:none}
+#lnihmPromo .lnihm-promo-dots button{width:10px;height:10px;padding:0;border:0;border-radius:999px;background:#e6e6ec;cursor:pointer;transition:background .2s;-webkit-appearance:none;appearance:none}
+#lnihmPromo .lnihm-promo-dots button[aria-current="true"]{background:#2c2c2c}
+
+@media(max-width:767px){
+#lnihmPromo{padding:0 var(--lnihm-pad-m,16px)}
+#lnihmPromo .lnihm-promo-hd{margin-bottom:18px}
+#lnihmPromo .lnihm-promo-hd h3{font-size:var(--lnihm-h2-m,22px)}
+
+#lnihmPromo .lnihm-promo-row{--pv:2}
+
+#lnihmPromo .lnihm-promo-card{height:auto;min-height:190px}
+#lnihmPromo .lnihm-promo-cnt{padding:13px}
+#lnihmPromo .lnihm-promo-tag{font-size:10px;padding:3px 8px}
+#lnihmPromo .lnihm-promo-ttl{font-size:12.5px;line-height:1.35}
+#lnihmPromo .lnihm-promo-big{font-size:21px}
+#lnihmPromo .lnihm-promo-big small{font-size:12px}
+#lnihmPromo .lnihm-promo-sub{font-size:10px}
+#lnihmPromo .lnihm-promo-cta{font-size:11px;padding:7px 12px}
+
+#lnihmPromo .lnihm-promo-m{font-size:21px}
+#lnihmPromo .lnihm-promo-tier{font-size:12px;line-height:1.5}
+#lnihmPromo .lnihm-promo-sep{display:none}
+}
+</style>
+<div id="lnihmPromo">
+    <div class="lnihm-promo-hd">
+        <div>
+            <h3>限時優惠</h3>
+            <p>當期主打促銷</p>
+        </div>
+    </div>
+    <div class="lnihm-promo-row" role="region" aria-label="限時優惠">
+
+        <a class="lnihm-promo-card" href="https://www.londonimg.tw/products/b67-surprise">
+            <div class="lnihm-promo-bg"></div>
+            <div class="lnihm-promo-cnt">
+                <span class="lnihm-promo-tag">任選兩件</span>
+                <div class="lnihm-promo-main">
+                    <div class="lnihm-promo-ttl">360°指環手機殼</div>
+                    <div class="lnihm-promo-big">88<small>折</small></div>
+                </div>
+                <span class="lnihm-promo-cta">SHOP NOW →</span>
+            </div>
+        </a>
+
+        <a class="lnihm-promo-card" href="https://www.londonimg.tw/pages/sale-3">
+            <div class="lnihm-promo-bg"></div>
+            <div class="lnihm-promo-cnt">
+                <span class="lnihm-promo-tag">出清特賣</span>
+                <div class="lnihm-promo-main">
+                    <div class="lnihm-promo-ttl">手機殼下殺</div>
+
+                    <div class="lnihm-promo-big"><span class="lnihm-promo-u">1件 85<small>折</small></span> <span class="lnihm-promo-u">2件 7<small>折</small></span></div>
+                    <div class="lnihm-promo-sub">手速慢了，賣掉沒輒</div>
+                </div>
+                <span class="lnihm-promo-cta">SHOP NOW →</span>
+            </div>
+        </a>
+
+        <a class="lnihm-promo-card" href="https://www.londonimg.tw/products/s75">
+            <div class="lnihm-promo-bg"></div>
+            <div class="lnihm-promo-cnt">
+                <span class="lnihm-promo-tag">買越多折越多</span>
+                <div class="lnihm-promo-main">
+                    <div class="lnihm-promo-ttl">安心扣 ‧ AirTag 防丟器</div>
+
+                    <div class="lnihm-promo-tier"><span class="lnihm-promo-u">2入折<span class="lnihm-promo-m">$50</span><span class="lnihm-promo-sep">‧</span></span> <span class="lnihm-promo-u">3入折<span class="lnihm-promo-m">$150</span><span class="lnihm-promo-sep">‧</span></span> <span class="lnihm-promo-u">4入折<span class="lnihm-promo-m">$280</span></span></div>
+                </div>
+                <span class="lnihm-promo-cta">SHOP NOW →</span>
+            </div>
+        </a>
+
+        <a class="lnihm-promo-card" href="https://www.londonimg.tw/products/z19">
+            <div class="lnihm-promo-bg"></div>
+            <div class="lnihm-promo-cnt">
+                <span class="lnihm-promo-tag">買一送一</span>
+                <div class="lnihm-promo-main">
+                    <div class="lnihm-promo-ttl">極地冰盾 保護貼</div>
+                    <div class="lnihm-promo-big">$295<small>/片</small></div>
+                    <div class="lnihm-promo-sub">瞬貼無痕 ‧ 一貼即上</div>
+                </div>
+                <span class="lnihm-promo-cta">SHOP NOW →</span>
+            </div>
+        </a>
+
+        <a class="lnihm-promo-card" href="https://www.londonimg.tw/pages/sale-4">
+            <div class="lnihm-promo-bg"></div>
+            <div class="lnihm-promo-cnt">
+                <span class="lnihm-promo-tag">福利品</span>
+                <div class="lnihm-promo-main">
+                    <div class="lnihm-promo-ttl">展示品驚喜出清</div>
+                    <div class="lnihm-promo-big">8<small>折起</small></div>
+                    <div class="lnihm-promo-sub">數量有限 ‧ 出完為止</div>
+                </div>
+                <span class="lnihm-promo-cta">SHOP NOW →</span>
+            </div>
+        </a>
+
+        <a class="lnihm-promo-card" href="https://www.londonimg.tw/products/ff88-surprise">
+            <div class="lnihm-promo-bg"></div>
+            <div class="lnihm-promo-cnt">
+                <span class="lnihm-promo-tag">超值組合 ‧ 免運</span>
+                <div class="lnihm-promo-main">
+                    <div class="lnihm-promo-ttl">明岳殼 × 極地冰盾貼</div>
+                    <div class="lnihm-promo-big">$999</div>
+                    <div class="lnihm-promo-sub">雙重防護 ‧ 免運帶回家</div>
+                </div>
+                <span class="lnihm-promo-cta">SHOP NOW →</span>
+            </div>
+        </a>
+
+        <a class="lnihm-promo-card" href="https://www.londonimg.tw/products/d12-surprise">
+            <div class="lnihm-promo-bg"></div>
+            <div class="lnihm-promo-cnt">
+                <span class="lnihm-promo-tag">限時優惠</span>
+                <div class="lnihm-promo-main">
+                    <div class="lnihm-promo-ttl">買殼再送 360°磁吸指環支架</div>
+                    <div class="lnihm-promo-sub">指定手機殼加碼贈</div>
+                </div>
+                <span class="lnihm-promo-cta">SHOP NOW →</span>
+            </div>
+        </a>
+
+        <a class="lnihm-promo-card" href="https://www.londonimg.tw/categories/bundle">
+            <div class="lnihm-promo-bg"></div>
+            <div class="lnihm-promo-cnt">
+                <span class="lnihm-promo-tag">組合包 ‧ 成套更省</span>
+                <div class="lnihm-promo-main">
+                    <div class="lnihm-promo-ttl">殼＋貼＋環 一次帶回</div>
+                    <div class="lnihm-promo-sub">整套買比單買省</div>
+                </div>
+                <span class="lnihm-promo-cta">SHOP NOW →</span>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="lnihm-promo-dots" role="tablist" aria-label="頁次"></div>
+</div>
+<script>(function(){
+  var root=document.getElementById('lnihmPromo');
+  if(!root||root.getAttribute('data-lnihm-init'))return;
+  root.setAttribute('data-lnihm-init','1');
+  var row=root.querySelector('.lnihm-promo-row');
+  var dotsWrap=root.querySelector('.lnihm-promo-dots');
+  if(!row||!dotsWrap)return;
+  var page=0,pv=1,pages=1,lock=false,tmr;
+  function cards(){ return [].slice.call(row.querySelectorAll('.lnihm-promo-card')); }
+  function step(cs){ return cs.length>1 ? (cs[1].offsetLeft-cs[0].offsetLeft) : (cs[0]?cs[0].offsetWidth:1); }
+
+  var twIv;
+  function tween(el,to,dur,done){
+    clearInterval(twIv); el.style.scrollSnapType='none';
+    var start=el.scrollLeft, change=to-start, t0=Date.now();
+    if(Math.abs(change)<1){ el.scrollLeft=to; el.style.scrollSnapType=''; if(done)done(); return; }
+    twIv=setInterval(function(){
+      var p=Math.min(1,(Date.now()-t0)/dur);
+      el.scrollLeft=start+change*(1-Math.pow(1-p,3));
+      if(p>=1){ clearInterval(twIv); el.style.scrollSnapType=''; if(done)done(); }
+    },16);
+  }
+  function build(){
+    var cs=cards(); if(!cs.length)return;
+    var s=step(cs); pv=Math.max(1,Math.round(row.clientWidth/s));
+    pages=Math.ceil(cs.length/pv);
+
+    if(row.scrollWidth <= row.clientWidth + 2) pages = 1;
+    dotsWrap.innerHTML='';
+    if(pages>1){
+      for(var i=0;i<pages;i++){
+        var b=document.createElement('button');
+        b.type='button'; b.setAttribute('aria-label','第 '+(i+1)+' 頁');
+        (function(idx){ b.addEventListener('click',function(){ go(idx); }); })(i);
+        dotsWrap.appendChild(b);
+      }
+    }
+    page=Math.min(page,pages-1); mark();
+  }
+
+  var SPEED=250;
+
+  function pageLeft(p){
+    var cs=cards(); if(!cs.length)return 0;
+    var idx=Math.min(p*pv, cs.length-1);
+    var maxSc=row.scrollWidth-row.clientWidth;
+    return Math.max(0,Math.min(cs[idx].offsetLeft-cs[0].offsetLeft, maxSc));
+  }
+  function nearestPage(){
+    var best=0,bd=Infinity;
+    for(var i=0;i<pages;i++){ var d=Math.abs(row.scrollLeft-pageLeft(i)); if(d<bd){bd=d;best=i;} }
+    return best;
+  }
+  function go(p){
+    p=Math.max(0,Math.min(p,pages-1)); page=p;
+    lock=true; tween(row,pageLeft(p),SPEED,function(){ lock=false; });
+    mark();
+  }
+  function mark(){ var k=dotsWrap.children; for(var i=0;i<k.length;i++) k[i].setAttribute('aria-current', i===page?'true':'false'); }
+  function onScroll(){
+    if(lock||pages<=1)return;
+    var p=nearestPage();
+    if(p!==page){ page=p; mark(); }
+  }
+
+  var THIRD=1/3;
+  function snapByThird(){
+    var cs=cards(); if(!cs.length)return;
+    var s=step(cs), maxSc=row.scrollWidth-row.clientWidth, base=cs[0].offsetLeft;
+    var delta=row.scrollLeft-dScroll;
+    var a=Math.abs(delta), full=Math.floor(a/s), rem=a-full*s;
+    var adv=full+(rem>=s*THIRD?1:0);
+    var target=dScroll+(delta<0?-1:1)*adv*s;
+    target=Math.max(0,Math.min(target,maxSc));
+    var best=target,bd=Infinity;
+    for(var i=0;i<cs.length;i++){
+      var v=Math.max(0,Math.min(cs[i].offsetLeft-base,maxSc));
+      var d=Math.abs(target-v);
+      if(d<bd){bd=d;best=v;}
+    }
+    lock=true; tween(row,best,SPEED,function(){ lock=false; page=nearestPage(); mark(); });
+  }
+  var st;
+  row.addEventListener('scroll',function(){ clearTimeout(st); st=setTimeout(onScroll,60); },{passive:true});
+  var rt;
+  window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(build,150); });
+
+  var dDown=false,dMoved=false,dX=0,dScroll=0;
+  var DRAG_MIN=8;
+  function onMove(e){
+    if(!dDown||e.pointerType!=='mouse')return;
+    var dx=e.clientX-dX;
+    if(Math.abs(dx)>DRAG_MIN)dMoved=true;
+    if(dMoved){ row.scrollLeft=dScroll-dx; e.preventDefault(); }
+  }
+  function dEnd(){
+    if(!dDown)return;dDown=false;
+    window.removeEventListener('pointermove',onMove);
+    window.removeEventListener('pointerup',dEnd);
+    window.removeEventListener('pointercancel',dEnd);
+    row.classList.remove('lnihm-grabbing');
+
+    if(dMoved) snapByThird();
+    else row.style.scrollSnapType='';
+  }
+  row.addEventListener('pointerdown',function(e){
+    if(e.pointerType!=='mouse'||e.button!==0)return;
+    dDown=true;dMoved=false;dX=e.clientX;dScroll=row.scrollLeft;
+    row.style.scrollSnapType='none';row.classList.add('lnihm-grabbing');
+    window.addEventListener('pointermove',onMove);
+    window.addEventListener('pointerup',dEnd);
+    window.addEventListener('pointercancel',dEnd);
+  });
+
+  row.addEventListener('click',function(e){ if(dMoved){e.preventDefault();e.stopPropagation();dMoved=false;} },true);
+  build();
+})();
+</script>

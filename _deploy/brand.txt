@@ -1,0 +1,84 @@
+<style>#lnihmBrand{max-width:var(--lnihm-maxw,1180px);margin:0 auto;padding:0 var(--lnihm-pad,22px);font-family:var(--lnihm-font,-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif);margin-top: 48px;margin-bottom: 48px;}
+#lnihmBrand *{box-sizing:border-box}
+#lnihmBrand .lnihm-brand-hd{display:flex;flex-direction:row;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:26px}
+#lnihmBrand .lnihm-brand-hd h3{font-size:var(--lnihm-h2,27px);font-weight:900;letter-spacing:-.01em;color:var(--lnihm-ink,#0b0b0f);margin:0}
+#lnihmBrand .lnihm-brand-hd p{font-size:14px;color:var(--lnihm-ink-soft,#5b5b66);margin:5px 0 0}
+#lnihmBrand .lnihm-brand-more{font-size:14px;font-weight:700;color:var(--lnihm-accent,#0a84ff)!important;text-decoration:none;white-space:nowrap;flex:none}
+#lnihmBrand .lnihm-brand-more:hover{color:var(--lnihm-accent-ink,#0066d6)!important}
+
+#lnihmBrand .lnihm-brand-wall{display:grid;grid-template-columns:repeat(9,1fr);gap:12px}
+
+#lnihmBrand .lnihm-brand-c{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;text-decoration:none!important;transition:.15s}
+
+#lnihmBrand .lnihm-brand-lp{position:relative;border-radius: 18px;width:100%;padding-bottom:calc(100% - 2px);background:linear-gradient(135deg,var(--lnihm-bg-soft,#f5f5f7),#ececf1);border:1px solid var(--lnihm-line,#e8e8ee);overflow:hidden;transition:.15s}
+#lnihmBrand .lnihm-brand-lpi{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;color:var(--lnihm-ink-soft,#5b5b66);font-size:18px;font-weight:900;letter-spacing:.04em;line-height:1.15;text-align:center}
+
+#lnihmBrand .lnihm-brand-lpi img{max-width: 90% !important;object-fit:contain;display:block}
+#lnihmBrand .lnihm-brand-c:hover .lnihm-brand-lp{border-color:var(--lnihm-accent,#0a84ff);background:#fff;box-shadow:0 10px 24px rgba(10,132,255,.12);transform:translateY(-3px)}
+#lnihmBrand .lnihm-brand-nm{display:block;font-size:13px;font-weight:700;line-height:1.35;color:var(--lnihm-ink,#0b0b0f)}
+
+@media(max-width:880px){
+#lnihmBrand{padding:0 var(--lnihm-pad-m,16px)}
+#lnihmBrand .lnihm-brand-hd{margin-bottom:18px}
+#lnihmBrand .lnihm-brand-hd h2{font-size:var(--lnihm-h2-m,22px)}
+#lnihmBrand .lnihm-brand-wall{grid-template-columns:repeat(3,1fr)}
+#lnihmBrand .lnihm-brand-lpi{font-size:16px}
+#lnihmBrand .lnihm-brand-nm{font-size:12px}
+}
+</style>
+<div id="lnihmBrand">
+    <div class="lnihm-brand-hd">
+        <div>
+            <h3>精選品牌</h3>
+            <p>40+ 原廠授權品牌 ‧ 自有設計</p>
+        </div>
+        <a class="lnihm-brand-more" href="https://www.londonimg.tw/categories/brand">更多品牌 →</a>
+    </div>
+    <div class="lnihm-brand-wall">
+
+        <a class="lnihm-brand-c" href="https://www.londonimg.tw/categories/devilcase">
+            <div class="lnihm-brand-lp"><div class="lnihm-brand-lpi" aria-hidden="true"><img src="https://img.shoplineapp.com/media/image_clips/6a5c4927062faf811d090a26/original.png?1784432935=&amp;owner_id=57975b626170691220930c00" alt="DEVILCASE"></div></div>
+            <b class="lnihm-brand-nm">DEVILCASE</b>
+        </a>
+
+        <a class="lnihm-brand-c" href="https://www.londonimg.tw/categories/brand-rhinoshield">
+            <div class="lnihm-brand-lp"><div class="lnihm-brand-lpi" aria-hidden="true"><img src="https://img.shoplineapp.com/media/image_clips/6a5c494b8a58799fa45000d7/original.png?1784432971=&amp;owner_id=57975b626170691220930c00" alt="犀牛盾"></div></div>
+            <b class="lnihm-brand-nm">犀牛盾</b>
+        </a>
+
+        <a class="lnihm-brand-c" href="https://www.londonimg.tw/categories/catalyst">
+            <div class="lnihm-brand-lp"><div class="lnihm-brand-lpi" aria-hidden="true"><img src="https://img.shoplineapp.com/media/image_clips/6a5c49ba73aa07aa8f03aebd/original.png?1784433082=&amp;owner_id=57975b626170691220930c00" alt="CATALYST"></div></div>
+            <b class="lnihm-brand-nm">CATALYST</b>
+        </a>
+
+        <a class="lnihm-brand-c" href="https://www.londonimg.tw/categories/philips">
+            <div class="lnihm-brand-lp"><div class="lnihm-brand-lpi" aria-hidden="true"><img src="https://img.shoplineapp.com/media/image_clips/6a5c49e39f9f580896d2b1e8/original.png?1784433123=&amp;owner_id=57975b626170691220930c00" alt="PHILIPS"></div></div>
+            <b class="lnihm-brand-nm">PHILIPS</b>
+        </a>
+
+        <a class="lnihm-brand-c" href="https://www.londonimg.tw/categories/jarch">
+            <div class="lnihm-brand-lp"><div class="lnihm-brand-lpi" aria-hidden="true"><img src="https://img.shoplineapp.com/media/image_clips/6a5c4a0de0fe70452d216eae/original.png?1784433165=&amp;owner_id=57975b626170691220930c00" alt="J/arch."></div></div>
+            <b class="lnihm-brand-nm">J/arch.</b>
+        </a>
+
+        <a class="lnihm-brand-c" href="https://www.londonimg.tw/categories/londonimg">
+            <div class="lnihm-brand-lp"><div class="lnihm-brand-lpi" aria-hidden="true"><img src="https://img.shoplineapp.com/media/image_clips/6a5c4a286e171745ac139f04/original.png?1784433192=&amp;owner_id=57975b626170691220930c00" alt="LONDONIMG"></div></div>
+            <b class="lnihm-brand-nm">LONDONIMG</b>
+        </a>
+
+        <a class="lnihm-brand-c" href="https://www.londonimg.tw/categories/natgeo-discovery">
+            <div class="lnihm-brand-lp"><div class="lnihm-brand-lpi" aria-hidden="true"><img src="https://img.shoplineapp.com/media/image_clips/6a5c4a4b418dc96dfb4b30e8/original.png?1784433227=&amp;owner_id=57975b626170691220930c00" alt="NatGeo"></div></div>
+            <b class="lnihm-brand-nm">NatGeo<br>國家地理頻道</b>
+        </a>
+
+        <a class="lnihm-brand-c" href="https://www.londonimg.tw/categories/yu">
+            <div class="lnihm-brand-lp"><div class="lnihm-brand-lpi" aria-hidden="true"><img src="https://img.shoplineapp.com/media/image_clips/6a5c4a6a062faf811d090b0c/original.png?1784433258=&amp;owner_id=57975b626170691220930c00" alt="YU"></div></div>
+            <b class="lnihm-brand-nm">YU</b>
+        </a>
+
+        <a class="lnihm-brand-c" href="https://www.londonimg.tw/categories/uag">
+            <div class="lnihm-brand-lp"><div class="lnihm-brand-lpi" aria-hidden="true"><img src="https://img.shoplineapp.com/media/image_clips/6a5c4a8f57970a9571564669/original.png?1784433294=&amp;owner_id=57975b626170691220930c00" alt="UAG"></div></div>
+            <b class="lnihm-brand-nm">UAG</b>
+        </a>
+    </div>
+</div>
